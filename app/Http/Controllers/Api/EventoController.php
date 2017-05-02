@@ -26,7 +26,7 @@ class EventoController extends Controller
 
         $order[0] = empty($order[0])? 'id' : $order[0];
         $order [1] = empty($order[1])? 'asc': $order[0]; 
-        
+        /*
         $where = empty($request->all()['where']) ? null : $request->all()['where'];
 
         $like = empty($request->all()['like']) ? null : $request->all()['like'];
@@ -36,15 +36,15 @@ class EventoController extends Controller
             $like[1] = '%' . $like[1] . '%';
         }
 
-        
+        */
         $result = Evento::orderBy($order[0], $order[1])
-        ->where(function($query) use($like){
-            if($like){
-                return $query->where($like[0], 'like', $like[1]);
-            }
-            return $query;
-        })
-        ->where($where)
+        //->where(function($query) use($like){
+        //    if($like){
+        //        return $query->where($like[0], 'like', $like[1]);
+        //    }
+        //    return $query;
+        //})
+        //->where($where)
         ->paginate($limit);
         
         return response()->json($result);
@@ -68,7 +68,8 @@ class EventoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $result = Evento::create($request->all());
+        return response()->json($result);
     }
 
     /**
@@ -79,7 +80,9 @@ class EventoController extends Controller
      */
     public function show($id)
     {
-        //
+        $result = Evento::findOrFail($id);
+
+        return response()->json($result);
     }
 
     /**
@@ -102,7 +105,9 @@ class EventoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $result = Evento::FindOrFail($id);
+        $result->update($request->all());
+        return $result;
     }
 
     /**
@@ -113,6 +118,8 @@ class EventoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $result = Evento::FindOrFail($id);
+        $result->delete();
+        return $result;
     }
 }
